@@ -2,7 +2,7 @@ import ACTION from '../actions/actionTypes';
 import CONSTANTS from '../constants';
 
 const initialState = {
-    isFetching: true,
+    isFetching: false,
     error: null,
     contests: [],
     customerFilter: CONSTANTS.CONTEST_STATUS_ACTIVE,
@@ -19,7 +19,8 @@ const initialState = {
 
 export default function (state = initialState, action) {
     switch (action.type) {
-        case ACTION.GET_CONTESTS_ACTION_REQUEST: {
+        case ACTION.GET_CONTESTS_FOR_CUSTOMER:
+        case ACTION.GET_CONTESTS_FOR_CREATIVE:{
             return {
                 ...state,
                 isFetching: true,
@@ -64,6 +65,9 @@ export default function (state = initialState, action) {
                 creatorFilter: {...state.creatorFilter,...action.filter}
             }
         }
+        case ACTION.CLEAR_STORE: {
+            return { ...initialState };
+          }
         default:
             return state;
     }

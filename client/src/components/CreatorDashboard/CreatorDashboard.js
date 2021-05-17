@@ -1,5 +1,5 @@
 import React from 'react';
-import {withRouter} from 'react-router-dom';
+import {Link, withRouter} from 'react-router-dom';
 import {connect} from 'react-redux';
 import {
     getContestsForCreative,
@@ -20,8 +20,7 @@ const types = ['', 'name,tagline,logo', 'name', 'tagline', 'logo', 'name,tagline
 
 
 class CreatorDashboard extends React.Component {
-
-
+  
     renderSelectType = () => {
         const array = [];
         const {creatorFilter} = this.props;
@@ -38,8 +37,7 @@ class CreatorDashboard extends React.Component {
 
     renderIndustryType = () => {
         const array = [];
-        const {creatorFilter} = this.props;
-        const {industry} = this.props.dataForContest.data;
+        const {creatorFilter, dataForContest:{data:{industry}}} = this.props;
         array.push(<option key={0} value={null}>Choose industry</option>);
         industry.forEach((industry, i) => array.push(<option key={i + 1} value={industry}>{industry}</option>));
         return (
@@ -62,8 +60,9 @@ class CreatorDashboard extends React.Component {
 
     componentDidMount() {
         this.props.getDataForContest();
-        if (this.parseUrlForParams(this.props.location.search) && !this.props.contests.length)
+        if (this.parseUrlForParams(this.props.location.search) && !this.props.contests.length){
             this.getContests(this.props.creatorFilter);
+        }
     }
 
     getContests = (filter) => {
@@ -185,6 +184,7 @@ class CreatorDashboard extends React.Component {
                                 <option value='asc'>Ascending</option>
                             </select>
                         </div>
+                        <Link to='/history'>Transactions</Link> 
                     </div>
                 </div>
                 {

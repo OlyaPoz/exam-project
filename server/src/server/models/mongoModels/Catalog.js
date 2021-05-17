@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 
-const Schema = new mongoose.Schema({
+const { Schema, model } = mongoose;
+
+const schema = new Schema({
   userId: {
     type: 'Number',
     required: true,
@@ -11,7 +13,7 @@ const Schema = new mongoose.Schema({
   },
   chats: [
     {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: 'Conversation',
       required: false,
       unique: false,
@@ -19,7 +21,6 @@ const Schema = new mongoose.Schema({
   ],
 });
 
-const Catalog = mongoose.model('Catalog', Schema);
+const Catalog = model('Catalog', schema);
+
 module.exports = Catalog;
-
-

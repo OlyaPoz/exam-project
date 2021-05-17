@@ -7,6 +7,7 @@ import ContestBox from "../ContestBox/ContestBox";
 import styles from './CustomerDashboard.module.sass';
 import classNames from 'classnames';
 import TryAgain from '../../components/TryAgain/TryAgain';
+import { Link } from 'react-router-dom';
 
 
 class CustomerDashboard extends React.Component {
@@ -62,8 +63,7 @@ class CustomerDashboard extends React.Component {
     };
 
     render() {
-        const {error, haveMore} = this.props;
-        const {customerFilter} = this.props;
+        const {error, haveMore, customerFilter} = this.props;
         return (
             <div className={styles.mainContainer}>
                 <div className={styles.filterContainer}>

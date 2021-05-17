@@ -2,7 +2,7 @@ const bd = require('../models/index');
 const NotFound = require('../errors/UserNotFoundError');
 const RightsError = require('../errors/RightsError');
 const ServerError = require('../errors/ServerError');
-import CONSTANTS from '../../constants';
+const CONSTANTS = require('../../constants');
 
 module.exports.parseBody = (req, res, next) => {
   req.body.contests = JSON.parse(req.body.contests);
@@ -20,11 +20,11 @@ module.exports.canGetContest = async (req, res, next) => {
   let result = null;
   try {
     if (req.tokenData.role === CONSTANTS.CUSTOMER) {
-      result = await bd.Contests.findOne({
+      result = await bd.Contest.findOne({
         where: { id: req.headers.contestid, userId: req.tokenData.userId },
       });
     } else if (req.tokenData.role === CONSTANTS.CREATOR) {
-      result = await bd.Contests.findOne({
+      result = await bd.Contest.findOne({
         where: {
           id: req.headers.contestid,
           status: {
@@ -38,6 +38,7 @@ module.exports.canGetContest = async (req, res, next) => {
     }
     !!result ? next() : next(new RightsError());
   } catch (e) {
+    console.log(e)
     next(new ServerError(e));
   }
 };
@@ -64,7 +65,7 @@ module.exports.canSendOffer = async (req, res, next) => {
     return next(new RightsError());
   }
   try {
-    const result = await bd.Contests.findOne({
+    const result = await bd.Contest.findOne({
       where: {
         id: req.body.contestId,
       },
@@ -84,7 +85,7 @@ module.exports.canSendOffer = async (req, res, next) => {
 
 module.exports.onlyForCustomerWhoCreateContest = async (req, res, next) => {
   try {
-    const result = await bd.Contests.findOne({
+    const result = await bd.Contest.findOne({
       where: {
         userId: req.tokenData.userId,
         id: req.body.contestId,
@@ -102,7 +103,7 @@ module.exports.onlyForCustomerWhoCreateContest = async (req, res, next) => {
 
 module.exports.canUpdateContest = async (req, res, next) => {
   try {
-    const result = bd.Contests.findOne({
+    const result = bd.Contest.findOne({
       where: {
         userId: req.tokenData.userId,
         id: req.body.contestId,

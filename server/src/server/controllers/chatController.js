@@ -1,11 +1,10 @@
+const _ = require('lodash');
 const Conversation = require('../models/mongoModels/conversation');
 const Message = require('../models/mongoModels/Message');
 const Catalog = require('../models/mongoModels/Catalog');
-const moment = require('moment');
 const db = require('../models/index');
 const userQueries = require('./queries/userQueries');
 const controller = require('../../socketInit');
-const _ = require('lodash');
 
 module.exports.addMessage = async (req, res, next) => {
   const participants = [req.tokenData.userId, req.body.recipient];
@@ -60,6 +59,10 @@ module.exports.addMessage = async (req, res, next) => {
         },
       },
     });
+    controller.getNotificationController().emitNewMessage(interlocutorId,{
+      message,
+      dialogId: newConversation._id,
+    })
     res.send({
       message,
       preview: Object.assign(preview, { interlocutor: req.body.interlocutor }),
@@ -155,7 +158,7 @@ module.exports.getPreview = async (req, res, next) => {
       interlocutors.push(conversation.participants.find(
         (participant) => participant !== req.tokenData.userId));
     });
-    const senders = await db.Users.findAll({
+    const senders = await db.User.findAll({
       where: {
         id: interlocutors,
       },
@@ -210,7 +213,6 @@ module.exports.favoriteChat = async (req, res, next) => {
 };
 
 module.exports.createCatalog = async (req, res, next) => {
-  console.log(req.body);
   const catalog = new Catalog({
     userId: req.tokenData.userId,
     catalogName: req.body.catalogName,

@@ -1,10 +1,8 @@
 import ACTION from '../actions/actionTypes';
 import CONSTANTS from '../constants';
 
-
-
 const initialState = {
-    isFetching: true,
+    isFetching: false,
     addChatId: null,
     isShowCatalogCreation: false,
     currentCatalog: null,
@@ -19,7 +17,7 @@ const initialState = {
     catalogList: [],
     isRenameCatalog: false,
     isShowChatsInCatalog: false,
-    catalogCreationMode:    CONSTANTS.ADD_CHAT_TO_OLD_CATALOG
+    catalogCreationMode: CONSTANTS.ADD_CHAT_TO_OLD_CATALOG
 };
 
 export default function (state = initialState, action) {
@@ -27,6 +25,7 @@ export default function (state = initialState, action) {
         case ACTION.GET_PREVIEW_CHAT: {
             return {
                 ...state,
+                isFetching: true,
                 messagesPreview: action.data,
                 error: null,
             }
@@ -112,7 +111,9 @@ export default function (state = initialState, action) {
         case ACTION.CLEAR_MESSAGE_LIST: {
             return {
                 ...state,
-                messages: []
+                messages: [],
+                interlocutor: [],
+                chatData: null,
             }
         }
         case ACTION.CHANGE_CHAT_SHOW:{
@@ -242,6 +243,9 @@ export default function (state = initialState, action) {
                 error: null
             }
         }
+        case ACTION.CLEAR_STORE: {
+            return { ...initialState };
+          }
         default:
             return state;
     }

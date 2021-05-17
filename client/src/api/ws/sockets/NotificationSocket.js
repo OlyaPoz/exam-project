@@ -8,11 +8,23 @@ class NotificationSocket extends WebSocket {
         super(dispatch, getState, room);
     }
 
+    onNewMessageNotification = () => {
+        this.socket.on('messageNotification', ({dialogId})=>{
+            console.log('it works', dialogId)
+            const {chatStore:{chatData}} = this.getState()
+            if(chatData && chatData._id !== dialogId){
+                toast(`You have a new message`)
+            }
+        })
+    };
+
     anotherSubscribes = () => {
         this.onEntryCreated();
         this.onChangeMark();
         this.onChangeOfferStatus();
+        this.onNewMessageNotification();
     };
+
     onChangeMark = () => {
         this.socket.on('changeMark', () => {
             toast('Someone liked your offer');

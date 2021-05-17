@@ -1,5 +1,10 @@
 import ACTION from './actionTypes';
 
+export const requestAuthAction= (data,redirect) =>({
+    type: ACTION.AUTH_REFRESH,
+    data,
+    redirect
+})
 
 export const authActionLogin = (data) => {
     return {
@@ -56,7 +61,7 @@ export const getUserAction = (data) => {
 
 export const getDataForContest = (data) => {
     return {
-        type: ACTION.GET_DATA_FOR_CONTEST_ACTION,
+        type: ACTION.GET_DATA_FOR_CONTEST_ACTION_REQUEST,
         data: data
     }
 };

@@ -3,17 +3,17 @@ import {connect} from 'react-redux';
 import Chat from '../Chat/Chat';
 
 const ChatContainer = props => {
-    const {data} = props;
+    const {user} = props;
     return (
         <>
-            {data? <Chat/> : null}
+            {user ? <Chat/> : null}
         </>
     )
 };
 
 const mapStateToProps = (state) => {
-    const {data} = state.userStore;
-    return {data};
+    const {user} = state.auth;
+    return {user};
 };
 
 export default connect(mapStateToProps, null)(ChatContainer);

@@ -10,6 +10,7 @@ class ChatController extends WebSocket{
 
   onSubscribeChat (socket) {
     socket.on('subscribeChat', (id) => {
+      console.log('new socket client:',id)
       socket.join(id);
     });
   }
@@ -17,16 +18,17 @@ class ChatController extends WebSocket{
   onUnsubscribeChat (socket) {
     socket.on('unsubscribeChat', (id) => {
       socket.join(id);
+      console.log('minus socket client:',id)
     });
   }
 
   emitNewMessage (target, message) {
-    this.io.to(parseInt(target)).emit(CONSTANTS.NEW_MESSAGE,
+    this.io.to(Number(target)).emit(CONSTANTS.NEW_MESSAGE,
       { message });
   }
 
   emitChangeBlockStatus (target, message) {
-    this.io.to(parseInt(target)).emit(CONSTANTS.CHANGE_BLOCK_STATUS,
+    this.io.to(Number(target)).emit(CONSTANTS.CHANGE_BLOCK_STATUS,
       { message });
   }
 }

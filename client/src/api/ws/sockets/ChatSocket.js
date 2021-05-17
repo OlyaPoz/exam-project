@@ -45,6 +45,7 @@ class ChatSocket extends WebSocket {
     };
 
     subscribeChat = (id) => {
+        console.log(id)
         this.socket.emit('subscribeChat', id);
     };
 

@@ -1,7 +1,7 @@
 import {combineReducers} from 'redux';
 import {reducer as formReducer} from 'redux-form';
 import authReducer from './authReducer';
-import getUserReducer from './userReducer';
+// import getUserReducer from './userReducer';
 import dataForContestReducer from './dataForContestReducer';
 import payReducer from './payReducer';
 import getContestsReducer from './getContestsReducer';
@@ -16,7 +16,7 @@ import userProfileReducer from './userProfileReducer';
 
 const appReducer=combineReducers({
    form: formReducer,
-   userStore: getUserReducer,
+   // auth: getUserReducer,
    auth: authReducer,
    dataForContest: dataForContestReducer,
    payment: payReducer,
